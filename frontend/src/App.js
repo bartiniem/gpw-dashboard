@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './index.css';
 import StockCard from './components/StockCard';
 import SimpleForm from './components/SimpleForm';
 import { fetchStocks, fetchStockData, addStockTicker } from './services/api';
@@ -30,6 +31,10 @@ function App() {
     <div>
       <h1>📊 GPW Dashboard</h1>
       <SimpleForm />
+
+      <div className="bg-indigo-500 text-white p-4 rounded">
+        Tailwind działa!
+      </div>
 
       {stocks.map((data, i) => (
         <StockCard key={i} data={data} />

@@ -15,3 +15,13 @@ We suggest that you begin by typing:
 
   cd C:\Users\barti\PycharmProjects\gpw-dashboard\frontend
   npm start
+  
+Guide:
+npx create-react-app my-app
+
+
+Tailwind CSS:
+npm install -D tailwindcss@3
+npx tailwindcss init
+https://v3.tailwindcss.com/docs/guides/create-react-app
+works!!!
