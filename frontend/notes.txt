@@ -1,0 +1,7 @@
+components/ — małe, reużywalne elementy UI.
+pages/ — widoki odpowiadające trasom (np. /home, /dashboard).
+services/ — funkcje do komunikacji z backendem (fetch, axios).
+hooks/ — własne hooki do logiki aplikacji.
+context/ — globalne stany (np. użytkownik, motyw).
+assets/ — obrazy, ikony, czcionki.
+styles/ — pliki CSS, Tailwind, itp.
