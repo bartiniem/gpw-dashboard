@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import StockChart from './StockChart';
 import {BsFillTrash3Fill } from 'react-icons/bs';
 
 const StockCard = ({data, onReload}) => {
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleDelete = async (stock) => {
         const confirmed = window.confirm(`Czy na pewno chcesz usunąć spółkę ${stock}?`);
@@ -26,10 +28,20 @@ const StockCard = ({data, onReload}) => {
         }
     };
 
+    const handleHeaderClick = () => {
+        navigate(`/stock/${data[0]}`);
+    };
+
     return (
         <div className="p-4 bg-white border-2 border-gray-300 dark:bg-white rounded shadow">
             <div className="flex items-center justify-between mb-2">
-                <h2 className="font-bold">{data[0].toUpperCase()}</h2>
+                <h2
+                    className="font-bold cursor-pointer hover:text-blue-600 transition-colors"
+                    onClick={handleHeaderClick}
+                    title="Kliknij aby zobaczyć szczegóły"
+                >
+                    {data[0].toUpperCase()}
+                </h2>
                 <div>{message}</div>
                 <button className="bg-red-500 dark:bg-dark-red text-white px-4 py-2 rounded flex items-center gap-2"
                         onClick={() => handleDelete(data[0])}>

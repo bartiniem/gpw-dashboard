@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './styles/index.css';
 import StockCard from './components/StockCard';
 import SimpleForm from './components/SimpleForm';
 import Footer from './components/Footer';
+import StockDetail from './pages/StockDetail';
 import {fetchStocks, fetchStockData} from './services/api';
 
-function App() {
+function Dashboard() {
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -58,6 +60,17 @@ function App() {
             </div>
             <Footer/>
         </div>
+    );
+}
+
+function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Dashboard/>}/>
+                <Route path="/stock/:ticker" element={<StockDetail/>}/>
+            </Routes>
+        </Router>
     );
 }
 
