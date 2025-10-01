@@ -7,15 +7,24 @@ import {fetchStocks, fetchStockData} from './services/api';
 
 function App() {
     const [stocks, setStocks] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     async function loadStocks() {
+        setLoading(true);
         const tickers = await fetchStocks('1');
-        Promise.all(tickers.map(fetchStockData)).then(setStocks);
-    };
+        Promise.all(tickers.map(fetchStockData)).then((data) => {
+            setStocks(data);
+            setLoading(false);
+        });
+    }
 
     useEffect(() => {
         loadStocks();
     }, []);
+
+    useEffect(() => {
+        document.title = `📊 GPW Dashboard ${stocks.length > 0 ? `(${stocks.length})` : ''}`;
+    }, [stocks]);
 
     return (
         <div className="w-full gap-6 p-4 bg-white dark:bg-gray-800">
@@ -28,11 +37,23 @@ function App() {
                 </div>
                 <SimpleForm onReload={loadStocks}/>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
-                    {stocks.map((data, i) => (
-                        <div className="bg-white shadow rounded p-6">
-                            <StockCard key={i} data={data} onReload={loadStocks}/>
-                        </div>
-                    ))}
+                    {loading ? (
+                        [1, 2, 3].map((i) => (
+                            <div key={i} className="bg-white shadow rounded p-6 border-2 border-gray-300 animate-pulse">
+                                <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+                                <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                                <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                                <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                                <div className="h-32 bg-gray-200 rounded mt-4"></div>
+                            </div>
+                        ))
+                    ) : (
+                        stocks.map((data, i) => (
+                            <div key={i} className="bg-white shadow rounded p-6">
+                                <StockCard data={data} onReload={loadStocks}/>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
             <Footer/>

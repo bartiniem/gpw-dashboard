@@ -1,10 +1,17 @@
 import React, {useState} from 'react';
 import StockChart from './StockChart';
+import {BsFillTrash3Fill } from 'react-icons/bs';
 
 const StockCard = ({data, onReload}) => {
     const [message, setMessage] = useState('');
 
     const handleDelete = async (stock) => {
+        const confirmed = window.confirm(`Czy na pewno chcesz usunąć spółkę ${stock}?`);
+
+        if (!confirmed) {
+            return;
+        }
+
         try {
             const response = await fetch(`http://localhost:5000/api/stocks/${stock}/delete`, {
                 method: 'POST',
@@ -22,12 +29,15 @@ const StockCard = ({data, onReload}) => {
     return (
         <div className="p-4 bg-white border-2 border-gray-300 dark:bg-white rounded shadow">
             <div className="flex items-center justify-between mb-2">
-                <h2 className="font-bold">{data[0]}</h2>
+                <h2 className="font-bold">{data[0].toUpperCase()}</h2>
                 <div>{message}</div>
-                <button className="bg-red-500 text-white px-4 py-2 rounded flex items-center gap-2"
+                <button className="bg-red-500 dark:bg-dark-red text-white px-4 py-2 rounded flex items-center gap-2"
                         onClick={() => handleDelete(data[0])}>
-                    X
+                    <BsFillTrash3Fill />
                 </button>
+            </div>
+            <div className="container mx-auto px-4">
+                <StockChart data={data[1]}/>
             </div>
             <ul>
                 {data[1].map((entry, i) => (
@@ -36,9 +46,6 @@ const StockCard = ({data, onReload}) => {
                     </li>
                 ))}
             </ul>
-            <div className="container mx-auto px-4">
-                <StockChart data={data[1]}/>
-            </div>
         </div>
     );
 };

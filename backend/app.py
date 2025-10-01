@@ -6,7 +6,7 @@ from utils.stocks import Stocks
 
 app = Flask(__name__)
 app.config['SWAGGER'] = {
-    'title': 'Moje API GPW',
+    'title': 'API GPW Dashboard',
     'uiversion': 3,
     'version': '1.0',
     'description': 'Dokumentacja API do pobierania danych z GPW'
@@ -29,7 +29,17 @@ def stocks():
 
 @app.route('/api/stocks/<ticker>')
 def stock_info(ticker):
-    """Desc"""
+    """
+    Return data for a stock
+    ---
+    parameters:
+    - name: ticker
+    responses:
+      200:
+        description: A successful response
+        examples:
+          text: "Hello World!"
+    """
     data = get_stock_data(ticker)
     return jsonify(data)
 
@@ -50,7 +60,7 @@ def get_message():
     data = request.get_json()
     ticker = data.get('ticker')
     Stocks().add_stock(ticker)
-    return jsonify({'message': f'Witaj z backendu! {t} {ticker}'})
+    return jsonify({'message': f'Backend: {t} {ticker} was added'})
 
 
 if __name__ == '__main__':
