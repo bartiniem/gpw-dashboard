@@ -28,7 +28,7 @@ const SimpleForm = ({onReload}) => {
 
     return (
         <div className="p-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-2">
                 <span className="text-black dark:text-white">Spółka:</span>
                 <input
                     id="ticker_input"

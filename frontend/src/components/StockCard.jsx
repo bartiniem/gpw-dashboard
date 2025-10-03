@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import StockChart from './StockChart';
-import {BsFillTrash3Fill } from 'react-icons/bs';
+import {BsFillTrash3Fill} from 'react-icons/bs';
 
 const StockCard = ({data, onReload}) => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    var sublist = data[1].slice(-3);
+    sublist.reverse();
 
     const handleDelete = async (stock) => {
         const confirmed = window.confirm(`Czy na pewno chcesz usunąć spółkę ${stock}?`);
@@ -45,14 +47,14 @@ const StockCard = ({data, onReload}) => {
                 <div>{message}</div>
                 <button className="bg-red-500 dark:bg-dark-red text-white px-4 py-2 rounded flex items-center gap-2"
                         onClick={() => handleDelete(data[0])}>
-                    <BsFillTrash3Fill />
+                    <BsFillTrash3Fill/>
                 </button>
             </div>
             <div className="container mx-auto px-4">
                 <StockChart data={data[1]}/>
             </div>
             <ul>
-                {data[1].map((entry, i) => (
+                {sublist.map((entry, i) => (
                     <li key={i}>
                         {entry.Date}: {entry.Close} PLN
                     </li>
