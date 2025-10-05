@@ -1,30 +1,43 @@
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const fetchStocks = async (ticker) => {
-    const response = await fetch(`http://localhost:5000/api/stocks`);
-    const data = await response.json();
-    console.log(`Stocks data:`, data);
-    return data;
+    try {
+        const response = await fetch(`${API_URL}/api/stocks`);
+        const data = await response.json();
+        console.log(`Stocks data:`, data);
+        return data;
+    }
+    catch (error) {
+        console.error('Error fetching stocks:', error);
+        return [`Error fetching stocks`];
+    }
 };
 
 export const fetchStockData = async (ticker) => {
-    const response = await fetch(`http://localhost:5000/api/stocks/${ticker}`);
-    const data = await response.json();
-    console.log(`Fetched data for ${ticker}:`, data);
-    return [ticker, data];
-};
-
-export const addStockTicker = async (ticker) => {
-    const response = await fetch(`http://localhost:5000/api/stocks/${ticker}/add`);
-    const data = await response.json();
-    console.log(`Fetched data for ${ticker}:`, data);
-    return [ticker, data];
+    try {
+        const response = await fetch(`${API_URL}/api/stocks/${ticker}`);
+        const data = await response.json();
+        console.log(`Fetched data for ${ticker}:`, data);
+        return [ticker, data];
+    }
+    catch (error) {
+        console.error(`Error fetching data for ${ticker}:`, error);
+        return [ticker, []];
+    }
 };
 
 export const fetchMessage = async (ticker_name) => {
-    const response = await fetch('http://localhost:5000/api/message', {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ticker: ticker_name})
-    });
-    const data = await response.json();
-    return [data.message];
+    try {
+        const response = await fetch(`${API_URL}/api/message`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ticker: ticker_name})
+        });
+        const data = await response.json();
+        return [data.message];
+    }
+    catch (error) {
+        console.error(`Error fetching message for ${ticker_name}:`, error);
+        return [`Error fetching message for ${ticker_name}`];
+    }
 };

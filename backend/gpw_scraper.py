@@ -7,7 +7,7 @@ def get_stock_data(ticker):
     filename = f"data/{ticker}.csv"
     if os.path.exists(filename):
         df = pd.read_csv(filename)
-        if (df['Date'] == datetime.now().strftime('%Y-%m-%d')).any():
+        if datetime.now().weekday() in [5,6] or (df['Date'] == datetime.now().strftime('%Y-%m-%d')).any():
             return df.tail(10).to_dict(orient='records')
 
     print(f"Downloading data for {ticker}")

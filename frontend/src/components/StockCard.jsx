@@ -3,10 +3,12 @@ import {useNavigate} from 'react-router-dom';
 import StockChart from './StockChart';
 import {BsFillTrash3Fill} from 'react-icons/bs';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const StockCard = ({data, onReload}) => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
-    var sublist = data[1].slice(-3);
+    let sublist = data[1].slice(-3);
     sublist.reverse();
 
     const handleDelete = async (stock) => {
@@ -17,7 +19,7 @@ const StockCard = ({data, onReload}) => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/api/stocks/${stock}/delete`, {
+            const response = await fetch(`${API_URL}/api/stocks/${stock}/delete`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({stock}),
@@ -35,7 +37,7 @@ const StockCard = ({data, onReload}) => {
     };
 
     return (
-        <div className="p-4 bg-white border-2 border-gray-300 dark:bg-white rounded shadow">
+        <div className="p-2 bg-white border-2 border-gray-300 dark:bg-white rounded shadow">
             <div className="flex items-center justify-between mb-2">
                 <h2
                     className="font-bold cursor-pointer hover:text-blue-600 transition-colors"
@@ -45,7 +47,7 @@ const StockCard = ({data, onReload}) => {
                     {data[0].toUpperCase()}
                 </h2>
                 <div>{message}</div>
-                <button className="bg-red-500 dark:bg-dark-red text-white px-4 py-2 rounded flex items-center gap-2"
+                <button className="bg-red-500 dark:bg-dark-red text-white px-3 py-2 rounded flex items-center gap-2"
                         onClick={() => handleDelete(data[0])}>
                     <BsFillTrash3Fill/>
                 </button>

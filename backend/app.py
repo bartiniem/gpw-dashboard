@@ -1,4 +1,9 @@
+from datetime import datetime
+
+import bcrypt
 from flask import Flask, jsonify, request
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+
 from gpw_scraper import get_stock_data
 from flask_cors import CORS
 from flasgger import Swagger
@@ -11,8 +16,27 @@ app.config['SWAGGER'] = {
     'version': '1.0',
     'description': 'Dokumentacja API do pobierania danych z GPW'
 }
+app.config['JWT_SECRET_KEY'] = 'super-secret-key'
+jwt = JWTManager(app)
 swagger = Swagger(app)
 CORS(app)  # pozwala na komunikację z Reactem
+
+users = {'test@test.com': 'pass'}  # przykładowa baza
+
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.json.get('email')
+    password = request.json.get('password')
+    if users.get(email) == password:
+        access_token = create_access_token(identity=email)
+        return jsonify(access_token=access_token), 200
+    return jsonify(msg='Invalid credentials'), 401
+
+@app.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
 
 @app.route('/api/stocks')
 def stocks():
