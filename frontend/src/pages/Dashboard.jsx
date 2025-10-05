@@ -37,7 +37,7 @@ const Dashboard = () => {
             <div className="container mx-auto px-4">
                 <div className="bg-indigo-500 text-white p-4 rounded">
                     <p className="text-center">
-                        Dodaj spółki giełdowe notowane na GPW, aby śledzić ich ceny w czasierzeczywistym!
+                        Dodaj spółki giełdowe notowane na GPW, aby śledzić ich ceny w czasie rzeczywistym!
                     </p>
                 </div>
                 <SimpleForm onReload={loadStocks}/>

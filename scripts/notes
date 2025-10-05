@@ -1,0 +1,10 @@
+curl -X POST http://localhost:5000/register \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com", "password": "haslo123"}'
+
+
+Windows:
+Invoke-WebRequest -Uri http://localhost:5000/register `
+  -Method POST `
+  -ContentType "application/json" `
+  -Body '{"email": "test@test.com", "password": "test"}'
