@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {fetchMessage} from '../services/api';
+import {fetchMessage} from '../services/api_utils';
 import {FaSpinner} from 'react-icons/fa';
 
 const SimpleForm = ({onReload}) => {

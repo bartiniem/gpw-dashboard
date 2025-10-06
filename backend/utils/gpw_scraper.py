@@ -5,19 +5,22 @@ import pandas as pd
 from datetime import datetime
 import os
 
-
 logger = logging.getLogger(__name__)
 
+
 def is_it_working_day(date):
-    # date in format 'YYYY-MM-DD'
-    dt = date.strftime("%Y-%m-%d")
+    dt = date.strftime("%Y-%m-%d")  # format 'YYYY-MM-DD'
     pl_holidays = holidays.Poland()
     return date.weekday() < 5 and dt not in pl_holidays
 
 
 def get_stock_data(ticker):
-    filename = f"data/{ticker}.csv"
+    filename = f"data/stocks/{ticker}.csv"
     logger.info(f"Loading data for {ticker}")
+
+    if not ticker:
+        return []
+
     if os.path.exists(filename):
         df = pd.read_csv(filename)
         if not is_it_working_day(datetime.now()) or (df['Date'] == datetime.now().strftime('%Y-%m-%d')).any():

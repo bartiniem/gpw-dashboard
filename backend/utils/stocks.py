@@ -3,8 +3,8 @@ import yaml
 
 class Stocks:
 
-    def __init__(self):
-        self._filename = "data/1234.yaml"
+    def __init__(self, wallet_name: str):
+        self._filename = f"data/wallets/{wallet_name}.yaml"
 
     def get_stocks(self):
         with open(self._filename) as f:

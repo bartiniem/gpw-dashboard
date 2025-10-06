@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import StockCard from '../components/StockCard';
 import SimpleForm from '../components/SimpleForm';
 import Footer from '../components/Footer';
-import {fetchStocks, fetchStockData} from '../services/api';
+import {fetchStocks, fetchStockData} from '../services/api_utils';
 import Header from "../components/Header";
 import {useAuth} from "../hooks/useAuthRedirect";
 
@@ -13,7 +13,7 @@ const Dashboard = () => {
 
     async function loadStocks() {
         setLoading(true);
-        const tickers = await fetchStocks('1');
+        const tickers = await fetchStocks();
         Promise.all(tickers.map(fetchStockData)).then((data) => {
             setStocks(data);
             setLoading(false);

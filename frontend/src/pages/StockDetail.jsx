@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import {fetchStockData} from '../services/api';
+import {fetchStockData} from '../services/api_utils';
 import StockChart from '../components/StockChart';
 import Header from "../components/Header";
 import {useAuth} from "../hooks/useAuthRedirect";
