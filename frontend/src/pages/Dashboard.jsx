@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import {fetchStocks, fetchStockData} from '../services/api_utils';
 import Header from "../components/Header";
 import {useAuth} from "../hooks/useAuthRedirect";
+import WalletList from "../components/WalletList";
 
 const Dashboard = () => {
     useAuth();
@@ -40,6 +41,7 @@ const Dashboard = () => {
                         Dodaj spółki giełdowe notowane na GPW, aby śledzić ich ceny w czasie rzeczywistym!
                     </p>
                 </div>
+                <WalletList />
                 <SimpleForm onReload={loadStocks}/>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-2 items-center justify-center">
                     {loading ? (

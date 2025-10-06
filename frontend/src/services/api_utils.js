@@ -33,3 +33,8 @@ export const fetchMessage = async (ticker_name) => {
         return [`Error fetching message for ${ticker_name}`];
     }
 };
+
+export const fetchWallets = async () => {
+    const {data} = await api.get('/api/wallets');
+    return data; // [{id, code, file_path, created_at}]
+};

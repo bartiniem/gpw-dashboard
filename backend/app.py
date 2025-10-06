@@ -143,13 +143,12 @@ def stocks():
         examples:
           text: "Hello World!"
     """
-    print("Auth:", request.headers.get('Authorization'))
-    print("Identity:", get_jwt_identity())
     identity = get_jwt_identity()
     user = User.query.filter_by(email=identity).first()
     wallets = user.wallets
     print(f"{wallets=}")
-    tickers = Stocks("1234").get_stocks()
+    code = wallets[0].code if wallets else "1234"
+    tickers = Stocks(code).get_stocks()
     print(f"{tickers=}")
     return tickers
 
@@ -175,6 +174,8 @@ def stock_info(ticker):
 @jwt_required()
 def list_wallets():
     # get_jwt_identity zwraca identity ustawione przy tworzeniu tokenu (np. email)
+    print("-" * 20)
+    print(f"get_jwt_identity() -> {get_jwt_identity()}")
     identity = get_jwt_identity()
     user = User.query.filter_by(email=identity).first()
     if not user:
