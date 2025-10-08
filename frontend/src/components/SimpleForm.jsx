@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {fetchMessage} from '../services/api_utils';
 import {FaSpinner} from 'react-icons/fa';
+import {usePersistedWalletCode} from "../hooks/usePersistedWalledCode";
 
 const SimpleForm = ({onReload}) => {
     const [message, setMessage] = useState('');
@@ -37,7 +38,8 @@ const SimpleForm = ({onReload}) => {
                     onChange={handleInputChange}
                     className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                 />
-                <button onClick={handleClick} className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2"
+                <button onClick={handleClick}
+                        className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2"
                         disabled={loading}>
                     {loading ? (
                         <span className="flex items-center gap-2">

@@ -1,11 +1,12 @@
 import logging
 import os
 import sys
+import datetime
 
 import bcrypt
 import yaml
 from flask import Flask, jsonify, request
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, create_refresh_token
 
 from utils.gpw_scraper import get_stock_data
 from flask_cors import CORS
@@ -38,6 +39,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.environ.get('SQLALCHEMY_TRACK_
 
 db.init_app(app)
 migrate = Migrate(app, db)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=15)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(days=7)
 jwt = JWTManager(app)
 swagger = Swagger(app)
 CORS(app)  # pozwala na komunikację z Reactem
@@ -119,9 +122,18 @@ def login():
 
     if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
         access_token = create_access_token(identity=email)
-        return jsonify(access_token=access_token), 200
+        refresh_token = create_refresh_token(identity=email)
+        return jsonify(access_token=access_token, refresh_token=refresh_token), 200
 
     return jsonify(msg='Invalid credentials'), 401
+
+
+@app.route('/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    identity = get_jwt_identity()
+    new_access = create_access_token(identity=identity)
+    return jsonify(access_token=new_access), 200
 
 
 @app.route('/protected', methods=['GET'])
@@ -143,11 +155,13 @@ def stocks():
         examples:
           text: "Hello World!"
     """
+    wlt = request.args.get('wallet')
+    print(f"{wlt=}")
     identity = get_jwt_identity()
     user = User.query.filter_by(email=identity).first()
     wallets = user.wallets
     print(f"{wallets=}")
-    code = wallets[0].code if wallets else "1234"
+    code = wlt if wlt else "1234"
     tickers = Stocks(code).get_stocks()
     print(f"{tickers=}")
     return tickers

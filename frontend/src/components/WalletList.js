@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {fetchWallets} from '../services/api_utils';
 
-const WalletList = () => {
+const WalletList = ({ onSelect }) => {
     const [wallets, setWallets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState('');
@@ -56,6 +56,13 @@ const WalletList = () => {
                             </div>
                         </div>
                         {/* Miejsce na akcje, np. ustaw jako aktywny, usuń */}
+                        <button
+                            onClick={() => onSelect && onSelect(w.code)}
+                            className="ml-4 px-3 py-1 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+                            title="Załaduj ten portfel"
+                        >
+                            Wybierz
+                        </button>
                     </li>
                 ))}
             </ul>

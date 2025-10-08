@@ -6,15 +6,20 @@ import {fetchStocks, fetchStockData} from '../services/api_utils';
 import Header from "../components/Header";
 import {useAuth} from "../hooks/useAuthRedirect";
 import WalletList from "../components/WalletList";
+import {usePersistedWalletCode} from "../hooks/usePersistedWalledCode";
 
 const Dashboard = () => {
     useAuth();
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedWallet, setSelectedWallet] = useState(null);
+    const [walletCode, setWalletCode] = usePersistedWalletCode();
 
-    async function loadStocks() {
+    async function loadStocks(walletCode) {
         setLoading(true);
-        const tickers = await fetchStocks();
+        const codeToUse = walletCode ?? selectedWallet ?? "basic";
+        setWalletCode(codeToUse);
+        const tickers = await fetchStocks(codeToUse);
         Promise.all(tickers.map(fetchStockData)).then((data) => {
             setStocks(data);
             setLoading(false);
@@ -41,8 +46,12 @@ const Dashboard = () => {
                         Dodaj spółki giełdowe notowane na GPW, aby śledzić ich ceny w czasie rzeczywistym!
                     </p>
                 </div>
-                <WalletList />
+                <WalletList onSelect={(code) => {
+                    setSelectedWallet(code);
+                    loadStocks(code);
+                }}/>
                 <SimpleForm onReload={loadStocks}/>
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Portfel: {walletCode}:</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-2 items-center justify-center">
                     {loading ? (
                         [1, 2, 3].map((i) => (

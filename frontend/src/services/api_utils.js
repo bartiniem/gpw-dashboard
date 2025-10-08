@@ -1,8 +1,10 @@
 import api from './api';
 
-export const fetchStocks = async () => {
+export const fetchStocks = async (wallet) => {
     try {
-        const response2 = await api.get(`/api/stocks`);
+        const response2 = await api.get(`/api/stocks`, {
+            params: {wallet}
+        });
         const data = await response2.data;
         console.log(`Stocks data:`, data);
         return data;
