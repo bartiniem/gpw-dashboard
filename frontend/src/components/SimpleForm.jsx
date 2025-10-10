@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {fetchMessage} from '../services/api_utils';
-import {FaSpinner} from 'react-icons/fa';
-import {usePersistedWalletCode} from "../hooks/usePersistedWalledCode";
+import {FaSpinner, FaPlusCircle} from 'react-icons/fa';
 
 const SimpleForm = ({onReload}) => {
     const [message, setMessage] = useState('');
@@ -35,6 +34,7 @@ const SimpleForm = ({onReload}) => {
                     id="ticker_input"
                     type="text"
                     value={inputValue}
+                    placeholder="np. PKO"
                     onChange={handleInputChange}
                     className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                 />
@@ -46,7 +46,7 @@ const SimpleForm = ({onReload}) => {
                             <FaSpinner className="animate-spin"/>
                             Ładowanie...
                         </span>
-                    ) : ('Dodaj spółkę')}
+                    ) : (<span className="flex items-center gap-2"><FaPlusCircle/>Dodaj spółkę</span>)}
                 </button>
             </div>
             <p className="text-black dark:text-white mt-2">{message}</p>

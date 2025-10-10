@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 import holidays
 import pandas as pd
@@ -15,7 +16,7 @@ def is_it_working_day(date):
 
 
 def get_stock_data(ticker):
-    filename = f"data/stocks/{ticker}.csv"
+    filename = Path("data") / "stocks" / f"{ticker}.csv"
     logger.info(f"Loading data for {ticker}")
 
     if not ticker:

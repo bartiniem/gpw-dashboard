@@ -1,10 +1,12 @@
+from pathlib import Path
+
 import yaml
 
 
 class Stocks:
 
     def __init__(self, wallet_name: str):
-        self._filename = f"data/wallets/{wallet_name}.yaml"
+        self._filename = Path("data") / "wallets" / f"{wallet_name}.yaml"
 
     def get_stocks(self):
         with open(self._filename) as f:

@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +19,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/login', {email, password});
+            const res = await axios.post(`${API_URL}/login`, {email, password});
             localStorage.setItem('token', res.data.access_token);
             navigate('/dashboard');
         } catch (err) {

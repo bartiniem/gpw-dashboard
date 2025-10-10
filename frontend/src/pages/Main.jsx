@@ -1,8 +1,11 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import Header from "../components/Header";
+import {usePersistedWalletCode} from "../hooks/usePersistedWalledCode";
 
 const Main = () => {
+    const [walletCode, setWalletCode] = usePersistedWalletCode();
+
     return (
         <div className="w-full gap-6 p-4 bg-white dark:bg-gray-800">
             <Header/>

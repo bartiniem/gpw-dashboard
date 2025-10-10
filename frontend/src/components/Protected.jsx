@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function Protected() {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        axios.get('http://localhost:5000/api/protected', {
+        axios.get(`${API_URL}/api/protected`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
